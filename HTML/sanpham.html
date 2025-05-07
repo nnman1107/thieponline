@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm - Web Thiệp</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Thiệp Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="signup.html">Đăng Ký</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Đăng Nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="giohang.html">Giỏ Hàng</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h2 class="text-center">Sản Phẩm</h2>
+        <div class="row" id="productList">
+
+        </div>
+        <div class="text-center mt-4">
+            <a href="giohang.html" class="btn btn-success">Xem Giỏ Hàng</a>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: 'Sản phẩm 1', price: 100000, image: '../IMG/PT4.jpg' },
+            { id: 2, name: 'Sản phẩm 2', price: 200000, image: '../IMG/PT5.jpg' },
+            { id: 3, name: 'Sản phẩm 3', price: 300000, image: '../IMG/PT6.jpg' },
+            { id: 4, name: 'Sản phẩm 4', price: 400000, image: '../IMG/PT7.jpg' }
+        ];
+
+        const productList = document.getElementById("productList");
+
+        products.forEach(product => {
+            const productCard = document.createElement("div");
+            productCard.className = "col-md-3 mb-4";
+            productCard.innerHTML = `
+                <div class="card">
+                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">Giá: ${product.price.toLocaleString()} VND</p>
+                        <button class="btn btn-primary addToCart" data-id="${product.id}">Thêm vào giỏ</button>
+                    </div>
+                </div>
+            `;
+            productList.appendChild(productCard);
+        });
+
+        document.querySelectorAll('.addToCart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.dataset.id;
+                const product = products.find(p => p.id == productId);
+                
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                let found = cart.find(item => item.name === product.name);
+                
+                if (found) {
+                    found.quantity += 1;
+                } else {
+                    cart.push({ name: product.name, price: product.price, img: product.image, quantity: 1 });
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                alert(`Đã thêm "${product.name}" vào giỏ hàng!`);
+            });
+        });
+document.querySelectorAll('.add-to-cart').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const name = this.dataset.name;
+        const price = this.dataset.price;
+        const img = this.dataset.image; 
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let found = cart.find(item => item.name === name);
+        
+        if (found) {
+            found.quantity += 1;
+        } else {
+            cart.push({ name: name, price: parseInt(price), img: img, quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        alert(`Đã thêm "${name}" vào giỏ hàng!`);
+    });
+});
+
+    </script>
+</body>
+</html>

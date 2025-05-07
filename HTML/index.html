@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Web Bán Thiệp</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/style.css"> <!-- Custom CSS của bạn -->
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Thiệp Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sanpham.html">Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="signup.html">Đăng Ký</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Đăng Nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="giohang.html">Giỏ Hàng</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section" style="background-image: url('hero-image.jpg'); background-size: cover; color: white; padding: 100px 0;">
+        <h1 class="text-center special-title">Chào mừng đến với Thiệp Online!</h1>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="container my-5">
+        <h2 class="text-center">Sản Phẩm Nổi Bật</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="../IMG/PT1.jpg" class="card-img-top" alt="Sản phẩm 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Thiệp Mời Sinh Nhật</h5>
+                        <p class="card-text">Giá: 100.000 VND</p>
+                        <button class="btn btn-primary add-to-cart" data-name="Thiệp Mời Sinh Nhật" data-price="100000" data-img="../IMG/PT1.jpg">Thêm vào giỏ</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="../IMG/PT2.jpg" class="card-img-top" alt="Sản phẩm 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Thiệp Cưới</h5>
+                        <p class="card-text">Giá: 150.000 VND</p>
+                        <button class="btn btn-primary add-to-cart" data-name="Thiệp Cưới" data-price="150000" data-img="../IMG/PT2.jpg">Thêm vào giỏ</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="../IMG/PT3.jpg" class="card-img-top" alt="Sản phẩm 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Thiệp Tình Yêu</h5>
+                        <p class="card-text">Giá: 120.000 VND</p>
+                        <button class="btn btn-primary add-to-cart" data-name="Thiệp Tình Yêu" data-price="120000" data-img="../IMG/PT3.jpg">Thêm vào giỏ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer text-center bg-dark text-white py-4">
+        <p>&copy; 2025 Thiệp Online - All Rights Reserved</p>
+    </div>
+
+    <!-- Bootstrap JS và các file JS khác -->
+    <script src="../JS/jquery-3.7.1.min.js"></script>
+    <script src="../JS/bootstrap.min.js"></script>
+
+    <!-- Thêm đoạn JS xử lý giỏ hàng -->
+    <script>
+        // Trang index.html
+document.querySelectorAll('.add-to-cart').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const name = this.dataset.name;
+        const price = this.dataset.price;
+        const img = this.dataset.img;  // Đảm bảo hình ảnh được lưu trữ từ data-img
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let found = cart.find(item => item.name === name);
+        
+        if (found) {
+            found.quantity += 1;
+        } else {
+            cart.push({ name: name, price: parseInt(price), img: img, quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        alert(`Đã thêm "${name}" vào giỏ hàng!`);
+    });
+});
+
+    </script>
+</body>
+</html>

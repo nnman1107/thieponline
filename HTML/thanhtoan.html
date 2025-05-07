@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán - Web Thiệp</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Thiệp Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Trang Chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sanpham.html">Sản Phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="giohang.html">Giỏ Hàng</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h2 class="text-center">Thanh Toán</h2>
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label for="fullName">Họ và tên</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Nhập họ tên" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ giao hàng" required>
+            </div>
+            <div class="form-group">
+                <label for="paymentMethod">Phương thức thanh toán</label>
+                <select class="form-control" id="paymentMethod" required>
+                    <option value="creditCard">Thẻ tín dụng</option>
+                    <option value="bankTransfer">Chuyển khoản ngân hàng</option>
+                    <option value="cashOnDelivery">Thanh toán khi nhận hàng</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <h4>Tổng tiền: <span id="checkoutTotalPrice">0 VND</span></h4>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Xác Nhận Thanh Toán</button>
+        </form>
+    </div>
+
+    <script>
+        function loadCartForCheckout() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                totalPrice += item.price * item.quantity;
+            });
+
+            document.getElementById("checkoutTotalPrice").textContent = totalPrice.toLocaleString() + " VND";
+        }
+
+        document.getElementById("checkoutForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById("fullName").value.trim();
+            const address = document.getElementById("address").value.trim();
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            const totalPrice = document.getElementById("checkoutTotalPrice").textContent;
+
+            if (!fullName || !address || !paymentMethod) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            alert(`Thanh toán thành công! Tổng tiền: ${totalPrice}`);
+            
+            // Xóa giỏ hàng sau khi thanh toán
+            localStorage.removeItem("cart");
+            window.location.href = "index.html"; // Chuyển về trang chủ hoặc trang cảm ơn
+        });
+
+        loadCartForCheckout();
+    </script>
+</body>
+</html>
